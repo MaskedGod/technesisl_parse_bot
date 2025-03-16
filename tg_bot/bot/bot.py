@@ -1,15 +1,16 @@
 import os
 import sys
-from aiogram import Bot, Dispatcher
+from aiogram import F, Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.client.default import DefaultBotProperties
 from dotenv import load_dotenv
 
-try:
-    from .handlers import start  # Относительный импорт (для запуска через main.py)
-except ImportError:
-    from handlers import start  # Абсолютный импорт (для запуска напрямую)
+from .handlers import (
+    start,
+    handle_document,
+    handle_upload_request,
+)
 
 
 load_dotenv()
@@ -25,6 +26,8 @@ async def start_bot():
     dp = Dispatcher()
 
     dp.message.register(start, Command("start"))
+    dp.message.register(handle_upload_request, F.text == "Загрузить файл")
+    dp.message.register(handle_document, F.content_type == "document")
 
     print("\n___Bot Started___")
 
