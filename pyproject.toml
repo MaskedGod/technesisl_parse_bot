@@ -1,0 +1,12 @@
+[project]
+name = "technesis-crawl-bot"
+version = "0.1.0"
+description = "Automate website parsing with this Telegram bot. Upload Excel files containing site information, and the bot will extract product prices, calculate median values, and provide detailed insights. Perfect for tracking product costs across multiple sites."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiogram>=3.18.0",
+    "openpyxl>=3.1.5",
+    "pandas>=2.2.3",
+    "python-dotenv>=1.0.1",
+]
