@@ -6,10 +6,14 @@ from aiogram.filters import Command
 from aiogram.client.default import DefaultBotProperties
 from dotenv import load_dotenv
 
+from .services.db_service import init_db
+
 from .handlers import (
     start,
     handle_document,
     handle_upload_request,
+    parse_prices_handler,
+    help_handler,
 )
 
 
@@ -25,9 +29,15 @@ async def start_bot():
     bot = Bot(token=API_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher()
 
+    init_db()
+
     dp.message.register(start, Command("start"))
     dp.message.register(handle_upload_request, F.text == "Загрузить файл")
     dp.message.register(handle_document, F.content_type == "document")
+    dp.message.register(parse_prices_handler, F.text == "Рассчитать средние цены")
+    dp.message.register(help_handler, F.text == "Помощь")
+    dp.message.register(parse_prices_handler, Command("parse"))
+    dp.message.register(help_handler, Command("help"))
 
     print("\n___Bot Started___")
 
